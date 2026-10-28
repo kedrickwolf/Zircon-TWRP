@@ -66,7 +66,7 @@ BOARD_KERNEL_OFFSET := 0x00008000
 BOARD_RAMDISK_OFFSET := 0x26F08000
 BOARD_TAGS_OFFSET := 0x07C88000
 BOARD_BOOT_HEADER_VERSION := 4
-BOARD_DTB_SIZE := 327372
+BOARD_DTB_SIZE := 275456
 BOARD_DTB_OFFSET := 0x07C88000
 BOARD_HEADER_SIZE := 2128
 BOARD_VENDOR_CMDLINE := bootopt=64S3,32N2,64N2
@@ -176,3 +176,15 @@ TARGET_USE_CUSTOM_LUN_FILE_PATH := /config/usb_gadget/g1/functions/mass_storage.
 TW_BATTERY_SYSFS_WAIT_SECONDS := 6
 TW_BACKUP_EXCLUSIONS := /data/fonts
 TW_USE_SERIALNO_PROPERTY_FOR_DEVICE_ID := true
+
+# Crypto - FBE metadata encryption (Android 13, zircon / mt6886)
+# /data is encrypted with fileencryption=aes-256-xts:aes-256-cts:v2+inlinecrypt_optimized
+# keydirectory=/metadata/vold/metadata_encryption (see recovery/root/system/etc/recovery.fstab:62)
+TW_INCLUDE_CRYPTO := true
+TW_CRYPTO_USE_METADATA := true
+TW_CRYPTO_FS_TYPE := f2fs
+TW_CRYPTO_REAL_BLOCKDEV := /dev/block/by-name/userdata
+TW_CRYPTO_MNT_POINT := /data
+TW_CRYPTO_FS_OPTIONS := "noatime,nosuid,nodev,discard,noauto_da_alloc,inlinecrypt"
+TW_CRYPTO_KEY_LOC := "metadata"
+TW_PREPARE_DATA_MEDIA := true
